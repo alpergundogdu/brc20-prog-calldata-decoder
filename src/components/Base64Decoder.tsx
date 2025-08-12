@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,8 +14,7 @@ const loadZstd = async () => {
 };
 
 const loadNada = async () => {
-  // Note: nada-js might need specific configuration based on actual API
-  const nada = await import('nada-js');
+  const nada = await import('@bestinslot/nada');
   return nada;
 };
 
@@ -73,16 +73,21 @@ export const Base64Decoder: React.FC = () => {
           break;
 
         case 0x01:
-          // NADA-JS compression
-          compressionType = 'NADA-JS (0x01)';
+          // NADA compression
+          compressionType = 'NADA (0x01)';
           try {
             const nada = await loadNada();
-            // Note: This is a placeholder - actual nada-js decompression would depend on the library's API
-            // You might need to adjust this based on the actual nada-js documentation
-            decodedData = dataWithoutMarker; // Placeholder until proper nada-js integration
-            setError('NADA-JS decompression not yet fully implemented - showing raw data');
+            // Use the NADA library to decompress the data
+            // Note: This assumes the library has a decompress method - adjust based on actual API
+            if (nada.decompress && typeof nada.decompress === 'function') {
+              decodedData = nada.decompress(dataWithoutMarker);
+            } else {
+              // Fallback if the API is different
+              decodedData = dataWithoutMarker;
+              setError('NADA decompression method not found - showing raw data');
+            }
           } catch (nadaError) {
-            setError(`NADA-JS decompression error: ${nadaError}`);
+            setError(`NADA decompression error: ${nadaError}`);
             decodedData = dataWithoutMarker;
           }
           break;
@@ -196,7 +201,7 @@ export const Base64Decoder: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <Badge variant="outline">0x01</Badge>
-              <span>NADA-JS compression</span>
+              <span>NADA compression</span>
             </div>
             <div className="flex items-center gap-2">
               <Badge variant="outline">0x02</Badge>
