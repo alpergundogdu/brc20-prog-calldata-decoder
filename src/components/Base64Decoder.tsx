@@ -14,8 +14,8 @@ const loadZstd = async () => {
 };
 
 const loadNada = async () => {
-  const nada = await import('@bestinslot/nada');
-  return nada;
+  const { decode } = await import('@bestinslot/nada');
+  return decode;
 };
 
 export const Base64Decoder: React.FC = () => {
@@ -76,16 +76,8 @@ export const Base64Decoder: React.FC = () => {
           // NADA compression
           compressionType = 'NADA (0x01)';
           try {
-            const nada = await loadNada();
-            // Use the NADA library to decompress the data
-            // Note: This assumes the library has a decompress method - adjust based on actual API
-            if (nada.decompress && typeof nada.decompress === 'function') {
-              decodedData = nada.decompress(dataWithoutMarker);
-            } else {
-              // Fallback if the API is different
-              decodedData = dataWithoutMarker;
-              setError('NADA decompression method not found - showing raw data');
-            }
+            const decode = await loadNada();
+            decodedData = decode(dataWithoutMarker);
           } catch (nadaError) {
             setError(`NADA decompression error: ${nadaError}`);
             decodedData = dataWithoutMarker;
