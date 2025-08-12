@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bestinslot/nada": "^0.1.6",
     "@bokuweb/zstd-wasm": "^0.0.27",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.11",

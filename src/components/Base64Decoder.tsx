@@ -13,6 +13,11 @@ const loadZstd = async () => {
   return decompress;
 };
 
+const loadNada = async () => {
+  const { decode } = await import('@bestinslot/nada');
+  return decode;
+};
+
 
 export const Base64Decoder: React.FC = () => {
   const [input, setInput] = useState('');
@@ -69,10 +74,15 @@ export const Base64Decoder: React.FC = () => {
           break;
 
         case 0x01:
-          // NADA compression (not supported due to library conflicts)
+          // NADA compression
           compressionType = 'NADA (0x01)';
-          setError('NADA decompression not supported - showing raw data');
-          decodedData = dataWithoutMarker;
+          try {
+            const decode = await loadNada();
+            decodedData = decode(dataWithoutMarker);
+          } catch (nadaError) {
+            setError(`NADA decompression error: ${nadaError}`);
+            decodedData = dataWithoutMarker;
+          }
           break;
 
         case 0x02:
