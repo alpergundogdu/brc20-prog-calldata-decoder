@@ -9,8 +9,9 @@ import { Badge } from '@/components/ui/badge';
 
 // Lazy load dependencies to avoid bundle bloat
 const loadZstd = async () => {
-  const { decompress } = await import('@bokuweb/zstd-wasm');
-  return decompress;
+  const zstd = await import('@bokuweb/zstd-wasm');
+  await zstd.init(); // Initialize the WASM module
+  return zstd.decompress;
 };
 
 const loadNada = async () => {
