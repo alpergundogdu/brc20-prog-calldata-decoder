@@ -122,7 +122,7 @@ export const Base64Decoder: React.FC = () => {
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Base64 Decoder with Compression Detection</CardTitle>
+          <CardTitle>BRC2.0 - Base64 Calldata Decoder</CardTitle>
           <CardDescription>
             Decode base64 strings and handle different compression formats based on the first byte marker
           </CardDescription>
