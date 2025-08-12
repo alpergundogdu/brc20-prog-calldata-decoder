@@ -107,7 +107,7 @@ export const Base64Decoder: React.FC = () => {
       setResult({
         compressionType,
         hexData: bytesToHex(decodedData),
-        originalSize: bytes.length,
+        originalSize: input.trim().length, // Length of base64 string
         decodedSize: decodedData.length
       });
 
